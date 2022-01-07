@@ -1,0 +1,31 @@
+*
+{
+	margin:  0px;
+	padding:  0px;
+}
+header
+{
+	text-align: center;
+	padding: 1em;
+}
+header a
+{
+	text-decoration: none;
+	font-weight: bold;
+	color: #112;
+}
+.ProfilePicture 
+{
+	width: 2em;
+}
+nav 
+{
+	display: inline;
+}
+
+nav a 
+{
+	text-decoration: none;
+	border: solid 1px black;
+
+}

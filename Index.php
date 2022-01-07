@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Bug Tracker</title>
+	<?php
+		require_once "PHP/Head.php";
+	?>
 </head>
 <body>
 	<?php 
-
 		require_once "PHP/Header.php";
-		require_once "PHP/Login.php";
+		require_once "PHP/Navbar.php";
 	?>
 </body>
 </html>

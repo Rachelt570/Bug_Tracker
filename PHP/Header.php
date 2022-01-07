@@ -1,9 +1,11 @@
 <?php  
-
+		
 	echo 
 	'
 		<header> 
-		<h1> Bug Tracker </h1>
-		<img src = "#"> Terra570 
+		<a href = "Index.php"> <h1> Bug Tracker </h1> </a>
 		</header>
+
 	';
+
+

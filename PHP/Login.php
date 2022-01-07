@@ -2,7 +2,7 @@
 
 echo 
 '
-	<form id = "Login-Form" action = " ../Scripts/PHP/Signin.inc.php" method = "post" >
+	<form id = "Login-Form" action = "Scripts/PHP/Signin.inc.php" method = "post" >
 	<label for = "Username"> Username </label>
 	<input type="text" name="LoginUsername"> 
 	<label for = "Password"> Password </label>
