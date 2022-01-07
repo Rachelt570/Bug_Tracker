@@ -7,9 +7,7 @@
 </head>
 <body>
 	<?php 
-
-		require_once "PHP/Header.php";
-		require_once "PHP/Login.php";
+		require_once "PHP/Signup.php";
 	?>
 </body>
 </html>
