@@ -6,6 +6,9 @@
 	<title>Bug Tracker</title>
 </head>
 <body>
+	<?php 
 
+		require_once "PHP/Header.php";
+	?>
 </body>
 </html>
