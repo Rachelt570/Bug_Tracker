@@ -1,8 +1,51 @@
 <?php
 
 $WebsiteHost = "http://localhost/Bug-Tracker";
+session_start();
 
 
+if (isset($_POST['function']))
+{
+
+	if($_POST['function'] == "echoSessionUID")
+	{
+		echoSessionUID();
+	}
+	if($_POST['function'] == "echoSessionUsername")
+	{
+		echoSessionUsername();
+	}
+	if($_POST['function'] == "echoSessionEmail")
+	{
+		echoSessionEmail();
+	}
+}
+
+function echoSessionUID() 
+{
+	echo ($_SESSION['UID']);
+	return;
+}
+function echoSessionUsername()
+{
+	echo ($_SESSION['Username']);
+	return;
+}
+function echoSessionEmail()
+{
+	echo ($_SESSION['Email']);
+	return;
+}
+
+function UIDToUsername($UID)
+{
+	$User = getUserByID($UID);
+	return $User['UID'];
+}
+function UsernameToUID($Username)
+{
+	$User = getUserByUsername($Username)
+}
 function emptyInput($Username, $Email, $Password, $PasswordConfirm) 
 {
 	return (empty($Username) || empty($Email) || empty($Password) || empty($PasswordConfirm));

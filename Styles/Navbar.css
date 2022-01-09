@@ -1,0 +1,73 @@
+nav 
+{	
+	width: 100%;
+	text-align: center;
+	background-color: #3333cc;
+}
+
+
+nav .ProfilePicture 
+{
+	display: inline;
+	width: 3em;
+	height: 3em;
+}
+
+#NavbarLinks 
+{
+	display: flex;
+	justify-content: flex-end;
+	align-content: flex-start;
+}
+#NavbarLinks li
+{
+		background-color: #ccc;	
+
+	display: block;
+	height: 100%;
+	list-style: none;
+	border:  1px solid black;
+}
+
+
+#NavbarLinks li a 
+{	
+	display: block;
+	height: 100%;
+	padding:  1em;
+	background-color: #ccc;	
+	color:  #000;
+	text-align: center;
+	text-decoration: none;
+}
+
+#NavbarLinks li input
+{
+	display: block;
+	height: 100%;
+	padding: 1.2em;
+	background-color: #ccc;	
+	color: #000;
+}
+
+#NavbarLinks li a:hover
+{
+	background-color: #333;
+	color: #fff;
+}
+
+
+nav a h2
+{
+	float: left;
+	margin: auto;
+	padding: 0.5em;
+	text-decoration: none;
+	color: #000;
+}
+
+
+nav a h2:hover
+{
+	color: #333;
+}

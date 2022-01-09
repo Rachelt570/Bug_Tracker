@@ -9,17 +9,25 @@
 			echo 
 			
 			' 
-
+			<link rel = "stylesheet" href = "Styles/navbar.css">
 			<nav>
-				<img class = "ProfilePicture" src = "Profiles/' . $_SESSION["Username"] .'/Profile.jpg"> 
-				<a href = "Settings.php"> Settings </a>
-				<a href = "Messages.php"> Messages </a>
-				<a href = "Teams.php"> Teams </a>
-				<a href = "Friends.php"> Friends </a>
+				<a href = "Index.php"> <h2> Bug Tracker </h2> </a>
+				<ul id = "NavbarLinks"> 
+					<li> <a href = "Settings.php"> Settings </a> </li>
+					<li> <a href = "Messages.php"> Messages </a> </li>
+					<li> <a href = "Teams.php"> Teams </a> </li> 
+					<li> <a href = "Friends.php"> Friends </a> <li>
+					<li> <form id = "SignoutForm" method = "POST" action = "Scripts/PHP/Signout.inc.php"> <input type = "Submit" value = "Logout"> </input> </form> </li>
+
+
+				</ul>
+				';	
+	
+				echo ' 
+
 			</nav>
 			';
 
 
-			require_once "Logout.php";
 
 		}

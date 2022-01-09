@@ -3,6 +3,16 @@
 	margin:  0px;
 	padding:  0px;
 }
+html
+{
+	height: 100%;
+	width:  100%;
+}
+body
+{
+	height:  100%;
+	width:  100%;
+}
 header
 {
 	text-align: center;
@@ -14,18 +24,5 @@ header a
 	font-weight: bold;
 	color: #112;
 }
-.ProfilePicture 
-{
-	width: 2em;
-}
-nav 
-{
-	display: inline;
-}
 
-nav a 
-{
-	text-decoration: none;
-	border: solid 1px black;
 
-}

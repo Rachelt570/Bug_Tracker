@@ -52,5 +52,11 @@ if(emailExists($Conn, $Email) !== False)
 }
 
 createUser($Conn, $Username, $Email, $Password);
-header("location: ../../Signup.php?signup=SUCCESS");
+session_start();
+$User = getUserByUsername($Conn, $Username);
+$_SESSION['UID'] = $User['UID'];
+$_SESSION['Username']  = $User['Username'];
+$_SESSION["Email"] = $User["Email"];
+
+header("location: ../../Index.php?signup=SUCCESS");
 exit();

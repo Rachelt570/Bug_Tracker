@@ -1,6 +1,6 @@
 <?php
 echo '
-	<form id = "signupForm" action = "../Scripts/PHP/Signup.inc.php" method = "post">
+	<form id = "signupForm" action = "Scripts/PHP/Signup.inc.php" method = "post">
 		<label for ="Username"> Username </label>
 		<input type="text" id = "Username" name="Username">
 		<label for = "Email"> Email </label>

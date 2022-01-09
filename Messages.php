@@ -6,8 +6,9 @@
 	?>
 </head>
 <body>
-	<?php 
+	<?php
 		require_once "PHP/Navbar.php";
+		require_once "PHP/Messages.php";
 	?>
 </body>
 </html>
