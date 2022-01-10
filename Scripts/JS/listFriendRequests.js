@@ -1,3 +1,38 @@
+async function getUserFromUID(UID)
+	{
+		var fData = { function: 'echoUsernameFromUID', parameters: UID };
+		return new Promise((resolve, reject) => {
+			$.ajax({
+				type: "POST",
+				data: fData,
+				url: "Scripts/PHP/AjaxHelper.inc.php",
+				success: function(data) {
+					resolve(data);
+				},
+				error: function(error){
+					reject(error);
+				}
+			})
+		})
+	}
+function displayRequestFromUsers(Users)
+{
+	for(let i = 0; i < Users.length; i++)
+	{
+		var str = Users[i];
+		console.log(str);
+		console.log(typeof(str));
+		str = str.replaceAll('\"','');
+		str = str.replaceAll('[', '');
+		str = str.replaceAll(']', '');
+		displayRequestFromUser(str);
+	}
+}
+function displayRequestFromUser(User)
+{
+	$("#FriendRequests").append("<li>" + User + "</li> <input type ='button' value = 'Accept'> </input>  <input type = 'button' value = 'Decline'> </input>");
+}
+
 $(document).ready(async function()
 {
 	var sessionUID;
@@ -51,6 +86,11 @@ $(document).ready(async function()
 
 	await getSessionVariables();
 
-	var JSON_Data = JSON.parse(await getFriendRequests(sessionUsername));
-	console.log(JSON_Data);
+	var Parsed_Data = JSON.parse(await getFriendRequests(sessionUsername));
+	var Users_Array = [];
+	for(let i = 0; i < Parsed_Data.length; i++)
+	{
+		Users_Array.push(await getUserFromUID(Parsed_Data[i]));
+	}
+	displayRequestFromUsers(Users_Array);
 });

@@ -14,7 +14,7 @@ $LoginPassword = $_POST["LoginPassword"];
 $result = getUserByUsername($Conn, $loginName);
 if(empty($result))
 {
-	header("Location:".$WEBSITE_HOST."/Index.php?error=loginFailed");
+	header("Location:".$WEBSITE_HOST."/Index.php?error=fafsaddf");
 	exit();
 }
 if(password_verify($LoginPassword, $result["Password"]))
@@ -28,7 +28,7 @@ if(password_verify($LoginPassword, $result["Password"]))
 }
 else
 {
-	header("Location:".$WEBSITE_HOST."Index.php?loginFailed");
+	header("Location:".$WEBSITE_HOST."/Index.php?loginFafasdfafadfafadsfdasfiled");
 	exit();
 }
 

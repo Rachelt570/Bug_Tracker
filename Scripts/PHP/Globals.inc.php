@@ -1,3 +1,3 @@
 <?php
 
-$WEBSITE_HOST = "Https://Localhost/Bug_Tracker";
+$WEBSITE_HOST = "http://Localhost/Bug_Tracker";

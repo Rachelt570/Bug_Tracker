@@ -14,13 +14,33 @@
 	{
 		return getUserByData($Conn, $Email, "Email");
 	}
+	function getUsernameByUID($Conn, $UID)
+	{
+		$sql = "SELECT Username FROM users WHERE UID = ?;";
+		$stmt = $Conn ->prepare($sql);
+		if(!$stmt)
+		{
+			exit();
+		}
+		$stmt->bind_param("s", $UID);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+		if($result->num_rows == 0)
+		{
+			return false;
+			exit();
+		}
+		$row = mysqli_fetch_array($result, MYSQLI_NUM);
+		return $row;
+	}
 	function getUserByData($Conn, $Data, $SearchType)
 	{
 		if($SearchType != "UID" && $SearchType != "Username" && $SearchType != "Email")
 		{
 			exit();
 		}
-		$sql = "Select 1 FROM users WHERE ". $SearchType ." = ?;";
+		$sql = "Select * FROM users WHERE ". $SearchType ." = ?;";
 		$stmt = $Conn -> prepare($sql);
 		if(!$stmt)
 		{
@@ -39,9 +59,10 @@
 		$stmt->close();
 		if($result->num_rows == 0)
 		{
-			return false;
+			return false;	
 		}
-		$row = $result->fetch_array();
+
+		$row = $result->fetch_array(MYSQLI_BOTH);
 		return $row;
 	}
 

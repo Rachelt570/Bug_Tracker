@@ -12,9 +12,7 @@
 
 
 		<ul id = "FriendRequests">
-			<li> Request One </li>
-			<li> Request Two </li> 
-			<li> Request Three </li>
+		
 
 		</ul>                                                                           
 		<ul id = "FriendsList"> 

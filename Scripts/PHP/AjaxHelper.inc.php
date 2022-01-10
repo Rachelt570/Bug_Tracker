@@ -4,6 +4,7 @@ session_start();
 require_once "DBH.inc.php";
 require_once "Helper.inc.php";
 
+
 if(!isset($_POST['function']))
 {
 	exit();
@@ -19,6 +20,11 @@ elseif($_POST['function'] == 'echoSessionUsername')
 elseif($_POST['function'] == 'echoSessionEmail')
 {
 	echoSessionEmail();	
+}
+elseif($_POST['function'] == 'echoUsernameFromUID')
+{
+	$parameter = $_POST['parameters'];
+	echoUsernameFromUID($Conn, $parameter);
 }
 //Session Variable Access
 	function echoSessionData()
@@ -43,20 +49,20 @@ elseif($_POST['function'] == 'echoSessionEmail')
 
 // get users
 
-	function echoUserFromUID($UID)
+	function echoUsernameFromUID($Conn, $UID)
 	{
-		$user = getUserFromUID($Conn, $UID);
+		$user = getUsernameByUID($Conn, $UID);
 		echo json_encode($user);
 	}
 
-	function echoUserFromEmail($Email)
+	function echoUsernameFromEmail($Conn, $Email)
 	{
-		$user = getUserFromEmail($Conn, $Email);
+		$user = getUsernameByEmail($Conn, $Email);
 		echo json_encode($user);
 	}
 
-	function echoUserFromUsername($Conn, $Username)
+	function echoUsernameFromUsername($Conn, $Username)
 	{
-		$user = getUserFromUsername($Conn, $Username);
+		$user = getUsernameByUsername($Conn, $Username);
 		echo json_encode($user);
 	}
