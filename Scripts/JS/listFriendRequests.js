@@ -7,13 +7,13 @@ $(document).ready(async function()
 	{
 		async function callPHPFunction(func)
 		{
-			var fData = { function : func};
+			var fData = { function : func };
 			var result;
 			return new Promise((resolve, reject) => {
 				$.ajax({
 					type: "POST",
 					data: fData,
-					url: "Scripts/PHP/Helper.inc.php",
+					url: "Scripts/PHP/AjaxHelper.inc.php",
 					success: function(data)
 					{
 						resolve(data);
@@ -28,15 +28,16 @@ $(document).ready(async function()
 		sessionUID = await(callPHPFunction("echoSessionUID"));
 		sessionUsername = await(callPHPFunction("echoSessionUsername"));
 		sessionEmail = await(callPHPFunction("echoSessionEmail"));
+
 	};
 	async function getFriendRequests(user)
 	{
-		let fData = { function : "getFriendRequests" };
+		var fData = { GetFriendRequests : "0" };
 		return new Promise((resolve, reject) => { 
 			$.ajax ({
 				type: "POST",
 				data: fData,
-				url: "Scripts/PHP/GetFriendRequests.inc.php",
+				url: "Scripts/PHP/FriendManagement.inc.php",
 				success: function(data){
 					resolve(data);
 				},
@@ -47,10 +48,9 @@ $(document).ready(async function()
 			})
 		})
 	};
+
 	await getSessionVariables();
-	var JSONData = JSON.parse(await getFriendRequests(sessionUsername));
-	console.log(sessionUID);
-	console.log(sessionUsername);
-	console.log(sessionEmail);
-	console.log(JSONData);
+
+	var JSON_Data = JSON.parse(await getFriendRequests(sessionUsername));
+	console.log(JSON_Data);
 });

@@ -1,202 +1,74 @@
 <?php
 
-$WebsiteHost = "http://localhost/Bug-Tracker";
-session_start();
 
-
-if (isset($_POST['function']))
-{
-
-	if($_POST['function'] == "echoSessionUID")
+//Get User
+	function getUserByUID($Conn, $UID)
 	{
-		echoSessionUID();
+		return getUserByData($Conn, $UID, "UID");
 	}
-	if($_POST['function'] == "echoSessionUsername")
+	function getUserByUsername($Conn, $Username)
 	{
-		echoSessionUsername();
+		return getUserByData($Conn, $Username, "Username");
 	}
-	if($_POST['function'] == "echoSessionEmail")
+	function getUserByEmail($Conn, $Email)
 	{
-		echoSessionEmail();
+		return getUserByData($Conn, $Email, "Email");
 	}
-}
-
-function echoSessionUID() 
-{
-	echo ($_SESSION['UID']);
-	return;
-}
-function echoSessionUsername()
-{
-	echo ($_SESSION['Username']);
-	return;
-}
-function echoSessionEmail()
-{
-	echo ($_SESSION['Email']);
-	return;
-}
-
-function UIDToUsername($UID)
-{
-	$User = getUserByID($UID);
-	return $User['UID'];
-}
-function UsernameToUID($Username)
-{
-	$User = getUserByUsername($Username)
-}
-function emptyInput($Username, $Email, $Password, $PasswordConfirm) 
-{
-	return (empty($Username) || empty($Email) || empty($Password) || empty($PasswordConfirm));
-}
-
-function invalidUsername($Username)
-{
-	return !preg_match("/^[a-zA-Z0-9]*$/", $Username);
-}
-
-function invalidEmail($Email)
-{
-	return !filter_var($Email, FILTER_VALIDATE_EMAIL);
-}
-
-function invalidPassword($Password)
-{
-	return False;
-}
-
-function usernameExists($Conn, $Username)
-{
-	$sql = "SELECT * FROM users where Username = ?";
-	$stmt = $Conn -> prepare($sql);
-	if($stmt == False)
+	function getUserByData($Conn, $Data, $SearchType)
 	{
-		header("location: ../../Signup.php?error=stmtFailed");
-		exit();
-	}	
-	$stmt->bind_param("s", $Username);
-	$stmt->execute();
-	$result = $stmt->get_result();
-	$row = $result->fetch_array();
-	$stmt->close();
-	return !empty($row);
-}
-
-function emailExists($Conn, $Email)
-{
-	$sql = "SELECT * FROM users where Email = ?";
-	$stmt = $Conn -> prepare($sql);
-	if($stmt == False)
-	{
-		header("location: ../../Signup.php?error=stmtFailed");
-		exit();
-	}	
-	$stmt->bind_param("s", $Email);
-	$stmt->execute();
-	$result = $stmt->get_result();
-	$row = $result->fetch_array();
-	$stmt->close();
-	return !empty($row);
-}
-
-function getUserByID($Conn, $ID)
-{
-	$sql = "SELECT * FROM users where UID = ?"; 
-	$stmt = $Conn -> prepare($sql);
-	if($stmt == False)
-	{
-		header("location: ../../Signup.php?error=stmtFailed");
-		exit();
-	}
-	$stmt->bind_param("s", $ID);
-	$stmt->execute();
-	$result = $stmt->get_result();
-	$row = $result->fetch_array();
-	$stmt->close();
-	return $row;
-}
-
-function getUserByUsername($Conn, $Username)
-{
-	$sql = "SELECT * FROM users where Username = ?"; 
-	$stmt = $Conn -> prepare($sql);
-	if($stmt == False)
-	{
-		header("location: ../../Signup.php?error=stmtFailed");
-		exit();
-	}
-	$stmt->bind_param("s", $Username);
-	$stmt->execute();
-	$result = $stmt->get_result();
-	if(mysqli_num_rows($result) == 0)
-	{
+		if($SearchType != "UID" && $SearchType != "Username" && $SearchType != "Email")
+		{
+			exit();
+		}
+		$sql = "Select 1 FROM users WHERE ". $SearchType ." = ?;";
+		$stmt = $Conn -> prepare($sql);
+		if(!$stmt)
+		{
+			exit();
+		}
+		if($SearchType == "UID")
+		{
+			$stmt->bind_param("i", $Data);
+		}
+		else
+		{
+			$stmt->bind_param("s", $Data);
+		}
+		$stmt->execute();
+		$result = $stmt->get_result();
 		$stmt->close();
-		return false;
+		if($result->num_rows == 0)
+		{
+			return false;
+		}
+		$row = $result->fetch_array();
+		return $row;
 	}
-	$row = $result->fetch_array();
-	$stmt->close();
-	return $row;
-}
 
-function getUsernameByEmail($Conn, $Email)
-{
-	$sql = "SELECT * FROM users where Email = ?"; 
-	$stmt = $Conn -> prepare($sql);
-	if($stmt == False)
+//Update User Data
+	function updatePassword($Conn, $UID, $NewPassword)
 	{
-		header("location: ../../Signup.php?error=stmtFailed");
-		exit();
+		$sql = "UPDATE users SET Password = ? WHERE UID = ?;";
+		$stmt = $Conn -> prepare($sql);
+		if(!$stmt)
+		{
+			exit();	
+		}
+		$HashedPassword = password_hash($NewPassword, PASSWORD_DEFAULT);
+		$stmt->bind_param("si", $HashedPassword, $UID);
+		$stmt->execute();
+		$stmt->close();
 	}
-	$stmt->bind_param("s", $Email);
-	$stmt->execute();
-	$result = $stmt->get_result();
-	$row = $result->fetch_array();
-	$stmt->close();
-	return $row;
-}
-function createUser($Conn, $Username, $Email, $Password)
-{
-	$sql = "INSERT INTO users (Username, Email, Password) VALUES (?, ?, ?);";
-	$stmt = $Conn -> prepare($sql);
-	if($stmt == False)
-	{	
-		header("location: ../../Signup.php?error=stmtFailed");
-		exit();
-	}
-	$HashedPassword = password_hash($Password, PASSWORD_DEFAULT);
-	$stmt->bind_param("sss", $Username, $Email, $HashedPassword);
-	$stmt->execute();
-	$stmt->close();
-	return;
-}
-
-function updatePassword($Conn, $UID, $NewPassword)
-{
-	$sql = "UPDATE users SET Password = ? WHERE UID = ?;";
-	$stmt = $Conn -> prepare($sql);
-	if($stmt == False)
+	function updateEmail($Conn, $UID, $newEmail)
 	{
-		exit();
+		$sql = "UPDATE users SET Email = ? Where UID = ?;";
+		$stmt = $Conn -> prepare($sql);
+		if(!$stmt) 
+		{
+			exit();
+		}
+		$stmt->bind_param("si", $newEmail, $UID);
+		$stmt->execute();
+		$stmt->close();
+		return;
 	}
-	$HashedPassword = password_hash($NewPassword, PASSWORD_DEFAULT);
-	$stmt->bind_param("ss", $HashedPassword, $UID);
-	$stmt->execute();
-	$stmt->close();
-	return;
-}
-
-function updateEmail($Conn, $UID, $newEmail)
-{
-	$sql = "UPDATE users SET Email = ? WHERE UID = ?;";
-	$stmt -> $Conn -> prepare($sql);
-	if($stmt == False) 
-	{
-		exit();
-	} 
-	$stmt->bind_param("ss",  $newEmail, $UID);
-	$stmt->execute();
-	$stmt->close();
-	return;
-}
-

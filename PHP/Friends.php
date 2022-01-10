@@ -4,7 +4,7 @@
 		<script src = "Scripts/JS/listFriendRequests.js"> </script>
 
 		<h3> Add friend </h3>
-		<form id = "AddFriend" method = "POST" action = "Scripts/PHP/AddFriend.inc.php"> 
+		<form id = "AddFriend" method = "POST" action = "Scripts/PHP/FriendManagement.inc.php"> 
 			<label for = "AddFriendSearchValue" name = "AddFriendSearchValue"> Enter Username </label>
 			<input type = "search" name = AddFriendSearchValue>
 			<input type = "submit" value = "Send Request">
