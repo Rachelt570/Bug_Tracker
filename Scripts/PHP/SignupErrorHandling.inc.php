@@ -1,7 +1,7 @@
 <?php
 require_once "Globals.inc.php";
 
-	function emptyInput($Username, $Email, $Password, $PasswordConfirm
+	function emptyInput($Username, $Email, $Password, $PasswordConfirm)
 	{
 	return (empty($Username) || empty($Email) || empty($Password) || empty($PasswordConfirm));
 	}

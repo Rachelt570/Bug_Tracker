@@ -2,27 +2,59 @@
 
 
 //Get User
-	function getUserByUID($Conn, $UID)
-	{
-		return getUserByData($Conn, $UID, "UID");
-	}
-	function getUserByUsername($Conn, $Username)
-	{
-		return getUserByData($Conn, $Username, "Username");
-	}
-	function getUserByEmail($Conn, $Email)
-	{
-		return getUserByData($Conn, $Email, "Email");
-	}
-	function getUsernameByUID($Conn, $UID)
+
+	function getUsernameFromUID($Conn, $UID)
 	{
 		$sql = "SELECT Username FROM users WHERE UID = ?;";
-		$stmt = $Conn ->prepare($sql);
+		$stmt = $Conn->prepare($sql);
 		if(!$stmt)
 		{
+			return false;
 			exit();
 		}
-		$stmt->bind_param("s", $UID);
+		$stmt -> bind_param('i', $UID);
+		$stmt -> execute();
+		$result = $stmt-> get_result();
+		$stmt->close();
+		if($result->num_rows == 0)
+		{
+			return false;
+			exit();
+		}
+		$row = $result->fetch_array(MYSQLI_ASSOC);
+		return $row;
+	}
+	function getEmailFromUID($Conn, $UID)
+	{
+		$sql = "SELECT Email FROM users WHERE UID = ?;";
+		$stmt = $Conn->prepare($sql);
+		if(!$stmt)
+		{
+			return false;
+			exit();
+		}
+		$stmt -> bind_param('i', $UID);
+		$stmt -> execute();
+		$result = $stmt -> get_result();
+		$stmt->close();
+		if($result->num_rows == 0)
+		{
+			return false;
+			exit();
+		}
+		$row = $result->fetch_array(MYSQLI_ASSOC);
+		return $row;
+	}
+	function getUserFromUID($Conn, $UID)
+	{
+		$sql = "SELECT UID Username Password Email FROM users WHERE UID = ?;";
+		$stmt = $Conn->prepare($sql);
+		if(!$stmt)
+		{
+			return false;
+			exit();
+		}
+		$stmt->bind_param('i', $UID);
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$stmt->close();
@@ -31,38 +63,71 @@
 			return false;
 			exit();
 		}
-		$row = mysqli_fetch_array($result, MYSQLI_NUM);
+		$row = $result->fetch_array(MYSQLI_ASSOC);
 		return $row;
 	}
-	function getUserByData($Conn, $Data, $SearchType)
+	function getUserFromUsername($Conn, $Username)
 	{
-		if($SearchType != "UID" && $SearchType != "Username" && $SearchType != "Email")
-		{
-			exit();
-		}
-		$sql = "Select * FROM users WHERE ". $SearchType ." = ?;";
-		$stmt = $Conn -> prepare($sql);
+		$sql = "SELECT UID, Username, Email, Password FROM users WHERE Username = ?;";
+		$stmt = $Conn->prepare($sql);
 		if(!$stmt)
 		{
+			return false;
 			exit();
 		}
-		if($SearchType == "UID")
-		{
-			$stmt->bind_param("i", $Data);
-		}
-		else
-		{
-			$stmt->bind_param("s", $Data);
-		}
+		$stmt->bind_param('s', $Username);
 		$stmt->execute();
-		$result = $stmt->get_result();
+		$result = $stmt -> get_result();
 		$stmt->close();
 		if($result->num_rows == 0)
 		{
-			return false;	
+			return false;
+			exit();
 		}
+		$row = $result->fetch_array(MYSQLI_ASSOC);
+		return $row;
+	}
 
-		$row = $result->fetch_array(MYSQLI_BOTH);
+	function getUIDFromUsername($Conn, $Username)
+	{
+		$sql = "SELECT UID FROM users WHERE Username = ?;";
+		$stmt = $Conn->prepare($sql);
+		if(!$stmt)
+		{
+			return false;
+			exit();
+		}
+		$stmt -> bind_param('s', $Username);
+		$stmt -> execute();
+		$result = $stmt -> get_result();
+		$stmt -> close();
+		if($result->num_rows == 0)
+		{
+			return false;
+			exit();
+		}
+		$row = $result->fetch_array(MYSQLI_ASSOC);
+		return $row;
+	}
+	function getUIDFromEmail($Conn, $Email)
+	{
+		$sql = "SELECT UID FROM users WHERE Email = ?;";
+		$stmt = $Conn->prepare($sql);
+		if(!$stmt)
+		{
+			return false;
+			exit();
+		}
+		$stmt -> bind_param('s', $Email);
+		$stmt -> execute();
+		$result = $stmt -> get_result();
+		$stmt -> close();
+		if($result -> num_rows == 0)
+		{
+			return false;
+			exit();
+		}
+		$row = $result -> fetch_array(MYSQLI_ASSOC);
 		return $row;
 	}
 

@@ -31,7 +31,7 @@ $PasswordConfirm = $_POST['PasswordConfirm'];
 
 require_once "DBH.inc.php";
 require_once "SignupErrorHandling.inc.php";
-
+require_once "Helper.inc.php";
 if(emptyInput($Username, $Email, $Password, $PasswordConfirm) !== False) 
 {
 	header("location:".$WEBSITE_HOST."/Signup.php?error=emptyInput");
@@ -70,10 +70,10 @@ if(emailExists($Conn, $Email) !== False)
 
 createUser($Conn, $Username, $Email, $Password);
 session_start();
-$User = getUserByUsername($Conn, $Username);
+$User = getUserFromUsername($Conn, $Username);
 $_SESSION['UID'] = $User['UID'];
 $_SESSION['Username']  = $User['Username'];
 $_SESSION["Email"] = $User["Email"];
 
-header("location:".$WEBSITE_HOST."/Signup.php?signup=SUCCESS");
+header("Location:".$WEBSITE_HOST."/Signup.php?signup=SUCCESS");
 exit();

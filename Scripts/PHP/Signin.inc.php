@@ -11,10 +11,10 @@ require_once "DBH.inc.php";
 
 $loginName = $_POST["LoginUsername"];
 $LoginPassword = $_POST["LoginPassword"];
-$result = getUserByUsername($Conn, $loginName);
+$result = getUserFromUsername($Conn, $loginName);
 if(empty($result))
 {
-	header("Location:".$WEBSITE_HOST."/Index.php?error=fafsaddf");
+	header("Location:".$WEBSITE_HOST."/Index.php?error=noUser" . $result);
 	exit();
 }
 if(password_verify($LoginPassword, $result["Password"]))
@@ -28,7 +28,7 @@ if(password_verify($LoginPassword, $result["Password"]))
 }
 else
 {
-	header("Location:".$WEBSITE_HOST."/Index.php?loginFafasdfafadfafadsfdasfiled");
+	header("Location:".$WEBSITE_HOST."/Index.php?invalidPassword");
 	exit();
 }
 

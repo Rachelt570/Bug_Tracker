@@ -5,10 +5,13 @@ require_once "Globals.inc.php";
 require_once "DBH.inc.php";
 require_once "Helper.inc.php";
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 if(isset($_POST['AddFriendSearchValue']))
 {
-	createFriendRequest();
+	createFriendRequest($Conn);
 	exit();
 }
 elseif(isset($_POST['GetFriendRequests']))
@@ -30,11 +33,11 @@ else
 
 
 $RequestedUsername = $_POST['AddFriendSearchValue'];
-function createFriendRequest()
+function createFriendRequest($Conn)
 {
 	$RequestedUsername = $_POST['AddFriendSearchValue'];
 	$userID = $_SESSION['UID'];
-	$targetUser = $getUserByUsername($Conn, $RequestedUsername);
+	$targetUser = getUserFromUsername($Conn, $RequestedUsername);
 	if(!$targetUser)
 	{
 		Header("Location:".$WEBSITE_HOST."/Friends.php?error=UserNotFound");
@@ -92,5 +95,14 @@ function getFriendRequests($Conn, $UID)
 	$stmt->execute();
 	$result = $stmt->get_result();
 	$stmt->close();
+	$row = $stmt->fetch_array(MYSQLI_NUM);
 	return $result;
+}
+function acceptRequest($Conn, $UID, $TargetID)
+{
+
+}
+function declineRequest($Conn, $UID, $TargetID)
+{
+	
 }
