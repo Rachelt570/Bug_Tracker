@@ -24,5 +24,6 @@ function displayRequests(friendRequestNames)
 function displayRequest(friendRequest)
 {
 	var requestList = $(FriendRequests);
-	$(requestList).append("<li>" + friendRequest + "</li>");
+	$(requestList).append("<li> <input type ='button'> </input> <input type = 'button'> </input>" + friendRequest + "</li>");
+
 }

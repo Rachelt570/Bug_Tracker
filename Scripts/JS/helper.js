@@ -49,7 +49,7 @@ async function getSessionEmail()
 {
 	return await callFunctionFromPHP("echoSessionEmail", "");
 }
-async function getFriendRequests(UID)
+as  ync function getFriendRequests(UID)
 {
 	var friendRequests = [];
 	friendRequests = JSON.parse(await callFunctionFromPHP("echoFriendRequests", UID));
